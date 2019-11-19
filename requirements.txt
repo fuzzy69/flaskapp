@@ -1,0 +1,6 @@
+flask
+flask_login
+flask_paginate
+flask-WTF
+pandas
+tables

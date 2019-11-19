@@ -1,0 +1,15 @@
+{% macro flash_messages() %}
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">{{ message | safe }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+{% endmacro %}
+
+{% macro render_pagination(pagination, endpoint) %}
+    {% if pagination %}
+        {{ pagination.links }}
+    {% endif %}
+{% endmacro %}

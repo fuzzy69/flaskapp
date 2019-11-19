@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% from "macros.html" import flash_messages, render_pagination %}
+{% block content %}
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ title }}</h1>
+      </div>
+
+    <div class="box-header">
+        {{ flash_messages() }}
+    </div>
+
+    <p>
+      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Column details
+      </button>
+    </p>
+    <div class="collapse" id="collapseExample">
+      <div class="card card-body">
+        <p><strong>lat:</strong> latitude of the oxts-unit (deg)</p>
+        <p><strong>lon:</strong> longitude of the oxts-unit (deg)</p>
+        <p><strong>alt:</strong> altitude of the oxts-unit (m)</p>
+        <p><strong>roll:</strong> roll angle (rad),    0 = level, positive = left side up,      range: -pi   .. +pi</p>
+        <p><strong>pitch:</strong> pitch angle (rad),   0 = level, positive = front down,        range: -pi/2 .. +pi/2</p>
+        <p><strong>yaw:</strong> heading (rad),       0 = east,  positive = counter clockwise, range: -pi   .. +pi</p>
+        <p><strong>vn:</strong> velocity towards north (m/s)</p>
+        <p><strong>ve:</strong> velocity towards east (m/s)</p>
+        <p><strong>vf:</strong> forward velocity, i.e. parallel to earth-surface (m/s)</p>
+        <p><strong>vl:</strong> leftward velocity, i.e. parallel to earth-surface (m/s)</p>
+        <p><strong>vu:</strong> upward velocity, i.e. perpendicular to earth-surface (m/s)</p>
+        <p><strong>ax:</strong> acceleration in x, i.e. in direction of vehicle front (m/s^2)</p>
+        <p><strong>ay:</strong> acceleration in y, i.e. in direction of vehicle left (m/s^2)</p>
+        <p><strong>az:</strong> acceleration in z, i.e. in direction of vehicle top (m/s^2)</p>
+        <p><strong>af:</strong> forward acceleration (m/s^2)</p>
+        <p><strong>al:</strong> leftward acceleration (m/s^2)</p>
+        <p><strong>au:</strong> upward acceleration (m/s^2)</p>
+        <p><strong>wx:</strong> angular rate around x (rad/s)</p>
+        <p><strong>wy:</strong> angular rate around y (rad/s)</p>
+        <p><strong>wz:</strong> angular rate around z (rad/s)</p>
+        <p><strong>wf:</strong> angular rate around forward axis (rad/s)</p>
+        <p><strong>wl:</strong> angular rate around leftward axis (rad/s)</p>
+        <p><strong>wu:</strong> angular rate around upward axis (rad/s)</p>
+        <p><strong>pos_accuracy:</strong> velocity accuracy (north/east in m)</p>
+        <p><strong>vel_accuracy:</strong> velocity accuracy (north/east in m/s)</p>
+        <p><strong>navstat:</strong> navigation status (see navstat_to_string)</p>
+        <p><strong>numsats:</strong> number of satellites tracked by primary GPS receiver</p>
+        <p><strong>posmode:</strong> position mode of primary GPS receiver (see gps_mode_to_string)</p>
+        <p><strong>velmode:</strong> velocity mode of primary GPS receiver (see gps_mode_to_string)</p>
+        <p><strong>orimode:</strong> orientation mode of primary GPS receiver (see gps_mode_to_string)</p>
+      </div>
+    </div><br />
+
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              {% for column in headers %}
+              <th>{{ column }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in rows %}
+            <tr>
+              <td>{{ start + loop.index0 + 1 }}</td>
+              {% for cell in row %}
+              <td>{{ cell }}</td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div><br />
+
+<!-- <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link" href="#" tabindex="-1">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
+ -->
+        {{ render_pagination(pagination, "_oxts") }}
+
+    </main>
+
+{% endblock %}
