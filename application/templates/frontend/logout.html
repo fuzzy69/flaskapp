@@ -1,26 +1,17 @@
-{% extends "frontend/base2.html" %}
+{% extends "frontend/base.html" %}
 {% from "macros.html" import flash_messages %}
 {% block content %}
 
-  <div class="col-12">
-    <form class="form-signin">
-      {{ form.csrf_token }}
-      {{ form.name.label(class="sr-only") }} {{ form.name(class="form-control", size=20) }}
+<div class="page-header">
+  <h1>{{ title }}</h1>
+</div>
 
-      <img class="mb-4" src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <label>
-          <input type="checkbox" value="remember-me"> Remember me
-        </label>
-      </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
-    </form>
-  </div>
+<div class="box-header">
+  {{ flash_messages() }}
+</div>
+
+<script type="text/javascript">
+  setTimeout(function(){window.location.href = "{{ url_for('front._index', _external=True) }}";}, 3000);
+</script>
 
 {% endblock %}
