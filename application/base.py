@@ -2,7 +2,7 @@
 
 import logging
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import LoginManager
 
 # from application.api import api
@@ -56,15 +56,35 @@ def ctx():
 
 @app.errorhandler(404)
 def _page_not_found(err):
-    """"""
+    """Custom 404 error handler"""
     if request.path.startswith("/api/"):
-        return jsonify(
-            {'error': True, 'msg': 'API endpoint {!r} does not exist on this server'.format(request.path)}), err.code
+        message = "API endpoint {!r} does not exist on this server!".format(request.path)
+        return jsonify({
+            "error": True,
+            "message": message
+        }), err.code
+
+    message = "Page {!r} does not exist on this server!".format(request.path)
+    flash(message, "warning")
+
+    return redirect(url_for("front._page_not_found"))
+
+
+@app.errorhandler(401)
+def _unauthorized(err):
+    """Custom 401 error handler"""
+    message = "The server could not verify that you are authorized to access the URL requested!"
+    if request.path.startswith("/api/"):
+        return jsonify({
+            "error": True,
+            "message": message
+        }), err.code
+    flash(message, "warning")
 
     return render_template(
-        "404.html",
-        title="Page Not Found"
-    ), 404
+        "error.html",
+        title="Unauthorized"
+    ), err.code
 
 
 from application.api import api

@@ -69,3 +69,13 @@ def _contact():
         "frontend/contact.html",
         title="Contact"
     )
+
+
+@front.route("/404")
+def _page_not_found():
+    """"""
+
+    return render_template(
+        "error.html",
+        title="Page Not Found"
+    ), 404
