@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from flask_login import login_required
 
 # from application.base import app
 from application.data import get_oxts_as_dicts
@@ -48,6 +49,7 @@ class APIResult:
 
 
 @api.route('/')
+@login_required
 def _index():
     """API root endpoint, return API details"""
     return APIResult(message="KITTI Flask Demo API").json()
@@ -55,6 +57,7 @@ def _index():
 
 @api.route("/oxts", defaults={"page": 1})
 @api.route("/oxts/<int:page>")
+@login_required
 def _oxts(page: int):
     """Returns OXTS data points"""
     status = False

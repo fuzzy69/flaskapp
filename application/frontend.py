@@ -34,7 +34,7 @@ def _login():
         if not all((username, password)):
             flash("Please enter username and password!", "danger")
             return redirect(url_for("front._login"))
-        if username not in USERS or not check_password_hash(USERS[username], password):
+        if username not in USERS or not check_password_hash(USERS[username][0], password):
             flash("Please enter valid username/password!", "danger")
             return redirect(url_for("front._login"))
         # OK

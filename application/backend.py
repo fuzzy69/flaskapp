@@ -20,13 +20,14 @@ back = Blueprint("back", __name__, url_prefix="/back", template_folder="template
 @back.route("/index")
 @login_required
 def _index():
-    """Index page"""
+    """Backend home page"""
     return render_template(
         "index.html"
     )
 
 @back.route("/oxts", defaults={"page": 1})
 @back.route("/oxts/<int:page>")
+@login_required
 def _oxts(page: int):
     """Shows OXTS data points"""
     rows = []
@@ -67,6 +68,7 @@ def _oxts(page: int):
 
 @back.route("/velo", defaults={"page": 1})
 @back.route("/velo/<int:page>")
+@login_required
 def _velo(page: int):
     """Shows Velodyne data points"""
     rows = []
@@ -102,6 +104,7 @@ def _velo(page: int):
 
 
 @back.route("/settings", methods=["GET", "POST"])
+@login_required
 def _settings():
     """Shows and updates app settings"""
     return render_template(
