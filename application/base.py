@@ -5,11 +5,11 @@ import logging
 from flask import Flask, jsonify, render_template, request
 from flask_login import LoginManager
 
+# from application.api import api
+# from application.backend import back
+# from application.frontend import front
 from application.misc import StaticFilesFilter
-from application.api import api
-from application.backend import back
-from application.frontend import front
-from application.xhr import xhr
+# from application.xhr import xhr
 from config import DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
 
 
@@ -26,11 +26,11 @@ app = Flask(
 app.secret_key = SECRET_KEY
 app.config["SCRIPT_ROOT"] = ROOT_DIR
 
-# Blueprints
-app.register_blueprint(back)
-app.register_blueprint(front)
-app.register_blueprint(xhr)
-app.register_blueprint(api)
+# # Blueprints
+# app.register_blueprint(back)
+# app.register_blueprint(front)
+# app.register_blueprint(xhr)
+# app.register_blueprint(api)
 
 # Auth
 login_manager = LoginManager()
@@ -65,3 +65,16 @@ def _page_not_found(err):
         "404.html",
         title="Page Not Found"
     ), 404
+
+
+from application.api import api
+from application.backend import back
+from application.frontend import front
+from application.xhr import xhr
+
+
+# Blueprints
+app.register_blueprint(back)
+app.register_blueprint(front)
+app.register_blueprint(xhr)
+app.register_blueprint(api)
