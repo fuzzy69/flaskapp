@@ -4,6 +4,7 @@ from os.path import isfile
 from itertools import islice
 
 from flask import Blueprint, render_template, flash
+from flask_login import login_required
 from flask_paginate import Pagination, get_page_parameter
 from pandas import DataFrame, read_csv
 import tables
@@ -17,6 +18,7 @@ back = Blueprint("back", __name__, url_prefix="/back", template_folder="template
 
 @back.route('/')
 @back.route("/index")
+@login_required
 def _index():
     """Index page"""
     return render_template(
