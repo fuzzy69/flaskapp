@@ -67,7 +67,7 @@ def _logout():
 
 @front.route("/contact")
 def _contact():
-    """"""
+    """Contact page"""
     return render_template(
         "frontend/contact.html",
         title="Contact"
@@ -76,8 +76,7 @@ def _contact():
 
 @front.route("/404")
 def _page_not_found():
-    """"""
-
+    """Default page not found endpoint"""
     return render_template(
         "error.html",
         title="Page Not Found"

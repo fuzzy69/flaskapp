@@ -1,12 +1,10 @@
 # -*- coding: UTF-8 -*-
 
-from sqlalchemy import Column, create_engine
+from sqlalchemy import Column
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.sql import func
-from sqlalchemy.types import DateTime, Integer, String
+from sqlalchemy.types import Integer, String
 from sqlalchemy.dialects.mysql import INTEGER
-import tables
+from tables import IsDescription, Float64Col, StringCol, UInt8Col
 
 from config import IPP
 
@@ -38,38 +36,36 @@ class SettingsTable(BaseTable):
     items_per_page = Column(INTEGER, nullable=False, default=IPP)
 
 
-class OXTS(tables.IsDescription):
-    """"""
-    timestamp    = tables.StringCol(32)
-    lat          = tables.Float64Col()
-    lon          = tables.Float64Col()
-    alt          = tables.Float64Col()
-    roll         = tables.Float64Col()
-    pitch        = tables.Float64Col()
-    yaw          = tables.Float64Col()
-    vn           = tables.Float64Col()
-    ve           = tables.Float64Col()
-    vf           = tables.Float64Col()
-    vl           = tables.Float64Col()
-    vu           = tables.Float64Col()
-    ax           = tables.Float64Col()
-    ay           = tables.Float64Col()
-    az           = tables.Float64Col()
-    af           = tables.Float64Col()
-    al           = tables.Float64Col()
-    au           = tables.Float64Col()
-    wx           = tables.Float64Col()
-    wy           = tables.Float64Col()
-    wz           = tables.Float64Col()
-    wf           = tables.Float64Col()
-    wl           = tables.Float64Col()
-    wu           = tables.Float64Col()
-    pos_accuracy = tables.Float64Col()
-    vel_accuracy = tables.Float64Col()
-    navstat      = tables.UInt8Col()
-    numsats      = tables.UInt8Col()
-    posmode      = tables.UInt8Col()
-    velmode      = tables.UInt8Col()
-    orimode      = tables.UInt8Col()
-
-
+class OXTS(IsDescription):
+    """HFS5 OXTS table model"""
+    timestamp    = StringCol(32)
+    lat          = Float64Col()
+    lon          = Float64Col()
+    alt          = Float64Col()
+    roll         = Float64Col()
+    pitch        = Float64Col()
+    yaw          = Float64Col()
+    vn           = Float64Col()
+    ve           = Float64Col()
+    vf           = Float64Col()
+    vl           = Float64Col()
+    vu           = Float64Col()
+    ax           = Float64Col()
+    ay           = Float64Col()
+    az           = Float64Col()
+    af           = Float64Col()
+    al           = Float64Col()
+    au           = Float64Col()
+    wx           = Float64Col()
+    wy           = Float64Col()
+    wz           = Float64Col()
+    wf           = Float64Col()
+    wl           = Float64Col()
+    wu           = Float64Col()
+    pos_accuracy = Float64Col()
+    vel_accuracy = Float64Col()
+    navstat      = UInt8Col()
+    numsats      = UInt8Col()
+    posmode      = UInt8Col()
+    velmode      = UInt8Col()
+    orimode      = UInt8Col()

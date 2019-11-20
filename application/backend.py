@@ -6,11 +6,9 @@ from itertools import islice
 from flask import Blueprint, render_template, flash
 from flask_login import login_required
 from flask_paginate import Pagination, get_page_parameter
-from pandas import DataFrame, read_csv
 import tables
 
-# from application.base import app
-from config import IPP, H5_FILE, OXTS_CSV_FILE, OXTS_TABLE_COLUMNS
+from config import IPP, H5_FILE, OXTS_TABLE_COLUMNS
 
 
 back = Blueprint("back", __name__, url_prefix="/back", template_folder="templates/backend")

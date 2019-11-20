@@ -1,7 +1,8 @@
+# -*- coding: UTF-8 -*-
+
 from flask import Blueprint, jsonify
 from flask_login import login_required
 
-# from application.base import app
 from application.data import get_oxts_as_dicts
 from application.errors import DataError
 from config import version, IPP
@@ -11,9 +12,13 @@ api = Blueprint("api", __name__, url_prefix="/api")
 
 
 class APIResult:
-    """"""
+    """API result data container"""
     def __init__(self, status: bool=True, message: str='', data: object=None):
-        """"""
+        """
+        :param bool status: result status
+        :param str message: message text, mostly for error descriptions
+        :param object data: result data
+        """
         self._status = status
         self._message = message
         self._data = data
@@ -21,21 +26,21 @@ class APIResult:
 
     @property
     def status(self) -> bool:
-        """"""
+        """Returns results status True if succeeded otherwise False"""
         return  self._status
 
     @property
     def message(self) -> str:
-        """"""
+        """Returns message string"""
         return  self._message
 
     @property
     def data(self) -> object:
-        """"""
+        """Returns result data or None"""
         return  self._data
 
     def json(self) -> dict:
-        """"""
+        """Returns all result fields as JSON object"""
         return jsonify({
             "status": self.status,
             "message": self.message,
@@ -44,7 +49,7 @@ class APIResult:
         })
 
     def __str__(self):
-        """"""
+        """Overridden"""
         return str(self.json())
 
 

@@ -22,7 +22,6 @@ TEMPLATES_DIR = join(APP_DIR, "templates")
 
 # Files
 H5_FILE = join(DATA_DIR, "kitti.h5")
-# H5_FILE = "/mnt/ramdisk/kitti.h5"
 OXTS_CSV_FILE = join(DATA_DIR, "oxts.csv")
 DB_FILE = join(DATA_DIR, "db.sqlite")
 DB_URI = "sqlite:///{}".format(DB_FILE)
@@ -44,6 +43,3 @@ LOG_FILE = join(LOG_DIR, "webui {}.log".format(strftime(TIMESTAMP_FORMAT).replac
 LOG_FORMAT = "[%(asctime)s] <%(filename)s:%(funcName)s:%(lineno)d> %(levelname)s - %(message)s", \
                    "%Y-%m-%d %H:%M:%S",
 IPP = 15
-
-USERNAME = "demo"
-PASSWORD = "demo"

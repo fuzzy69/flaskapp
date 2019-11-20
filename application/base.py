@@ -6,11 +6,7 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, url
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
-# from application.api import api
-# from application.backend import back
-# from application.frontend import front
 from application.misc import StaticFilesFilter
-# from application.xhr import xhr
 from config import DB_URI, DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
 
 
@@ -32,22 +28,16 @@ app.config["DATABASE_CONNECT_OPTIONS"] = {}
 
 db = SQLAlchemy(app)
 
-# # Blueprints
-# app.register_blueprint(back)
-# app.register_blueprint(front)
-# app.register_blueprint(xhr)
-# app.register_blueprint(api)
-
 # Auth
 login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    """"""
-    # return User.get(user_id)
-    return 12345
+# @login_manager.user_loader
+# def load_user(user_id):
+#     """"""
+#     return User.get(user_id)
+    # return 12345
 
 
 @app.context_processor
@@ -62,7 +52,7 @@ def ctx():
 
 @app.teardown_request
 def teardown_request(exception):
-    """"""
+    """Rollback transaction on error"""
     if exception:
         db.session.rollback()
         db.session.remove()

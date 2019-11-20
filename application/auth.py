@@ -13,22 +13,15 @@ from application.models import UsersTable
 
 app = current_app
 
-# USERS = {
-#     "demo": (
-#         "pbkdf2:sha256:150000$Lgdmfr9X$bbb8229c62e63824d6f53de5930b5add6bfdffcbda745d653aa26c044c69e7d9",  # password
-#         "ZGVtb3Rva2Vu"  # access token
-#     ),
-# }
-
 
 class User(UserMixin):
-    """"""
+    """Represents logged in user"""
     pass
 
 
 @login_manager.user_loader
 def load_user(username: str) -> Optional[User]:
-    """"""
+    """Checks user session. Return User instance if valid user otherwise None"""
     r = db.session.query(UsersTable).filter(UsersTable.username == username).first()
     if r is None:
         return
@@ -39,19 +32,9 @@ def load_user(username: str) -> Optional[User]:
     return user
 
 
-# @login_manager.header_loader
-# def load_user_from_header(header_val):
-#     header_val = header_val.replace('Basic ', '', 1)
-#     try:
-#         header_val = base64.b64decode(header_val)
-#     except TypeError:
-#         pass
-#     return User.query.filter_by(api_key=header_val).first()
-
-
 @login_manager.request_loader
 def load_user_from_request(request):
-    """"""
+    """Checks if request contains valid API key header"""
     api_key = request.headers.get("Authorization")
     if api_key:
         api_key = api_key.replace("Bearer ", '', 1)
@@ -64,20 +47,3 @@ def load_user_from_request(request):
             app.logger.warning("Unauthorized API access attempt!", exc_info=True)
 
     return None
-
-
-class Users:
-    """"""
-    def __init__(self, username: str, password: str):
-        """"""
-        self._username = username
-        self.password = password
-        self.set_password(password)
-
-    # def set_password(self, password):
-    #     self.pw_hash = generate_password_hash(password)
-
-    def check_password(self, password_hash):
-#        if not password_hash:
-#            return check_password_hash(self.pw_hash, password)
-        return check_password_hash(password_hash, self.password)
