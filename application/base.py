@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+from os.path import isfile
 import logging
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
@@ -7,7 +8,8 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from application.misc import StaticFilesFilter
-from config import DB_URI, DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
+from application.models import init_db
+from config import DB_FILE, DB_URI, DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
 
 
 # Filter static files info from Flask log
@@ -26,7 +28,10 @@ app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["DATABASE_CONNECT_OPTIONS"] = {}
 
+# DB
 db = SQLAlchemy(app)
+if not isfile(DB_FILE):
+    init_db(DB_URI)
 
 # Auth
 login_manager = LoginManager()

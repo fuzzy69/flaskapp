@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from sqlalchemy import Column
+from sqlalchemy import Column, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.types import Integer, String
 from sqlalchemy.dialects.mysql import INTEGER
@@ -34,6 +34,12 @@ class SettingsTable(BaseTable):
     __tablename__ = "settings"
 
     items_per_page = Column(INTEGER, nullable=False, default=IPP)
+
+
+def init_db(db_uri: str):
+    """Creates a database with all modeled tables"""
+    engine = create_engine(db_uri)
+    Base.metadata.create_all(engine)
 
 
 class OXTS(IsDescription):
