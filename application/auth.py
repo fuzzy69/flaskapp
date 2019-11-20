@@ -36,21 +36,22 @@ def load_user(username: str) -> Optional[User]:
 def load_user_from_request(request):
     """Checks if request contains valid API key header"""
     auth_header = request.headers.get("Authorization")
-    if any((auth_header is None, ':' not in auth_header, "Bearer " not in auth_header)):
-        app.logger.warning("Invalid authorization header!")
-        return None
-    username, api_key = auth_header.replace("Bearer ", '', 1).split(':', 1)
-    r = db.session.query(UsersTable).filter(UsersTable.username == username).first()
-    if r is not None:
-        try:
-            decoded_api_key = b64decode(api_key.encode("utf-8"))
-            if not check_password_hash(r.api_key, decoded_api_key):
-                app.logger.warning("Invalid API key '{}'!".format(api_key))
-                return None
-            user = User()
-            user.id = r.username
-            return user
-        except:
-            app.logger.warning("Failed to decode API key '{}'!".format(api_key), exc_info=True)
+    if auth_header is not None:
+        if any((':' not in auth_header, "Bearer " not in auth_header)):
+            app.logger.warning("Invalid authorization header!")
+            return None
+        username, api_key = auth_header.replace("Bearer ", '', 1).split(':', 1)
+        r = db.session.query(UsersTable).filter(UsersTable.username == username).first()
+        if r is not None:
+            try:
+                decoded_api_key = b64decode(api_key.encode("utf-8"))
+                if not check_password_hash(r.api_key, decoded_api_key):
+                    app.logger.warning("Invalid API key '{}'!".format(api_key))
+                    return None
+                user = User()
+                user.id = r.username
+                return user
+            except:
+                app.logger.warning("Failed to decode API key '{}'!".format(api_key), exc_info=True)
 
     return None
