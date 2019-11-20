@@ -34,7 +34,7 @@ OXTS_TABLE_COLUMNS = (
 HOST = "127.0.0.1"  # Dev
 # HOST = "0.0.0.0"  # Production
 PORT = 4000
-SECRET_KEY = "_9\Z{$YkntY[v~*`n%SB{kL~m=vB^pjy"
+SECRET_KEY = "12345"  # TODO: move out the sensitive data
 
 LOGGING = True
 LOG_FILE = join(LOG_DIR, "webui {}.log".format(strftime(TIMESTAMP_FORMAT).replace(' ', '_')))
