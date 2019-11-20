@@ -1,20 +1,24 @@
-from base64 import b64decode, b16encode
+# -*- coding: UTF-8 -*-
+
+from base64 import b64decode
+from typing import Optional
 
 from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash
 
-from application.base import login_manager
+from application.base import db, login_manager
+from application.models import UsersTable
 
 
 app = current_app
 
-USERS = {
-    "demo": (
-        "pbkdf2:sha256:150000$Lgdmfr9X$bbb8229c62e63824d6f53de5930b5add6bfdffcbda745d653aa26c044c69e7d9",  # password
-        "ZGVtb3Rva2Vu"  # access token
-    ),
-}
+# USERS = {
+#     "demo": (
+#         "pbkdf2:sha256:150000$Lgdmfr9X$bbb8229c62e63824d6f53de5930b5add6bfdffcbda745d653aa26c044c69e7d9",  # password
+#         "ZGVtb3Rva2Vu"  # access token
+#     ),
+# }
 
 
 class User(UserMixin):
@@ -22,16 +26,11 @@ class User(UserMixin):
     pass
 
 
-# @login_manager.user_loader
-# def load_user(user_id: str) -> User:
-#     """"""
-#     return User.get_id(user_id)
-
-
 @login_manager.user_loader
-def load_user(username: str):
+def load_user(username: str) -> Optional[User]:
     """"""
-    if username not in USERS:
+    r = db.session.query(UsersTable).filter(UsersTable.username == username).first()
+    if r is None:
         return
 
     user = User()
@@ -62,7 +61,7 @@ def load_user_from_request(request):
             user.id = "demo"
             return user
         except:
-            app.logger.warning("Un-authorized API access attempt!", exc_info=True)
+            app.logger.warning("Unauthorized API access attempt!", exc_info=True)
 
     return None
 

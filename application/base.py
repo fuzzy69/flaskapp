@@ -4,13 +4,14 @@ import logging
 
 from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import LoginManager
+from flask_sqlalchemy import SQLAlchemy
 
 # from application.api import api
 # from application.backend import back
 # from application.frontend import front
 from application.misc import StaticFilesFilter
 # from application.xhr import xhr
-from config import DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
+from config import DB_URI, DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
 
 
 # Filter static files info from Flask log
@@ -25,6 +26,11 @@ app = Flask(
 )
 app.secret_key = SECRET_KEY
 app.config["SCRIPT_ROOT"] = ROOT_DIR
+app.config["SQLALCHEMY_DATABASE_URI"] = DB_URI
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["DATABASE_CONNECT_OPTIONS"] = {}
+
+db = SQLAlchemy(app)
 
 # # Blueprints
 # app.register_blueprint(back)
@@ -54,6 +60,16 @@ def ctx():
     }
 
 
+@app.teardown_request
+def teardown_request(exception):
+    """"""
+    if exception:
+        db.session.rollback()
+        db.session.remove()
+    db.session.remove()
+
+
+# Error handlers
 @app.errorhandler(404)
 def _page_not_found(err):
     """Custom 404 error handler"""

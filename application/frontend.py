@@ -4,8 +4,10 @@ from flask import Blueprint, current_app, flash, redirect, render_template, requ
 from flask_login import login_user, logout_user
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from application.auth import USERS, User
+from application.auth import User
+from application.base import db
 from application.forms import LoginForm
+from application.models import UsersTable
 
 
 app = current_app
@@ -34,7 +36,8 @@ def _login():
         if not all((username, password)):
             flash("Please enter username and password!", "danger")
             return redirect(url_for("front._login"))
-        if username not in USERS or not check_password_hash(USERS[username][0], password):
+        r = db.session.query(UsersTable).filter(UsersTable.username == username).first()
+        if r is None or not check_password_hash(r.password, password):
             flash("Please enter valid username/password!", "danger")
             return redirect(url_for("front._login"))
         # OK

@@ -24,6 +24,9 @@ TEMPLATES_DIR = join(APP_DIR, "templates")
 H5_FILE = join(DATA_DIR, "kitti.h5")
 # H5_FILE = "/mnt/ramdisk/kitti.h5"
 OXTS_CSV_FILE = join(DATA_DIR, "oxts.csv")
+DB_FILE = join(DATA_DIR, "db.sqlite")
+DB_URI = "sqlite:///{}".format(DB_FILE)
+
 
 OXTS_TABLE_COLUMNS = (
     "timestamp",

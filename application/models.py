@@ -1,6 +1,41 @@
 # -*- coding: UTF-8 -*-
 
+from sqlalchemy import Column, create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import func
+from sqlalchemy.types import DateTime, Integer, String
+from sqlalchemy.dialects.mysql import INTEGER
 import tables
+
+from config import IPP
+
+
+Base = declarative_base()
+
+
+class BaseTable(Base):
+    """Base table model"""
+    __abstract__ = True
+
+    id = Column(Integer, primary_key=True)
+
+
+class UsersTable(BaseTable):
+    """Users table model"""
+    __tablename__ = "users"
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(128), nullable=False)
+    password = Column(String(128), nullable=False)
+    api_key = Column(String(128))
+
+
+class SettingsTable(BaseTable):
+    """Settings table model"""
+    __tablename__ = "settings"
+
+    items_per_page = Column(INTEGER, nullable=False, default=IPP)
 
 
 class OXTS(tables.IsDescription):
@@ -36,3 +71,5 @@ class OXTS(tables.IsDescription):
     posmode      = tables.UInt8Col()
     velmode      = tables.UInt8Col()
     orimode      = tables.UInt8Col()
+
+
