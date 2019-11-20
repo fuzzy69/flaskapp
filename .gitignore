@@ -102,7 +102,6 @@ ENV/
 
 .idea
 
-data/
 env/
 static/css/vendor/
 static/js/vendor/
