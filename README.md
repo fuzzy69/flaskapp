@@ -86,20 +86,38 @@ Response:
   "version": string
 }
 ```
-
-Endpoint: /api/oxts
+Endpoint (requires authentication): /api/oxts
 ```
 curl --request GET \
   --url 'http://localhost:4000/api/oxts' \
-  --header 'authorization: Bearer ZGVtb3Rva2Vu'
+  --header 'authorization: Bearer demo:ZGVtb3Rva2Vu'
 ```
 Response:
 ```
 {
   "data": {
-    "oxts": list, 
+    "oxts": list[dict], 
     "total_pages": int
   }, 
   "status": bool
 }
 ```
+Endpoint with filter (requires authentication): /api/oxts?timestamp=2011-10-03%2014%3A34%3A34.102597
+```
+curl --request GET \
+  --url 'http://localhost:4000/api/oxts?timestamp=2011-10-03%2014%3A34%3A34.102597' \
+  --header 'authorization: Bearer demo:ZGVtb3Rva2Vu'
+```
+
+
+### Unit tests
+
+From the flaskapp directory execute:
+```
+python -m unittest discover tests -v
+```
+or just
+```
+make test
+```
+
