@@ -5,7 +5,7 @@ DIR_TMP = /mnt/ramdisk/
 help:
 	@echo "clean - remove Python file artifacts"
 	@echo "lint  - check style with flake8"
-	@echo "tests - run unittests"
+	@echo "test  - run unittests"
 	@echo "setup - setup application"
 
 setup:
@@ -16,7 +16,7 @@ clean:
 	find . | grep -E "(__pycache__|\.pyc|\.pyo$$)" | xargs rm -rfv
 	find $(DIR_PATH)/logs/ | grep -E "(\.csv|\.json)" | xargs -d '\n' rm -rfv
 
-tests:
+test:
 	python -m unittest discover tests -v
 
 lint:
