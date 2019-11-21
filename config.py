@@ -6,7 +6,7 @@ from time import strftime
 __title__ = "Kitty Flask Demo"
 __short_title__ = "kitty"
 __description__ = ""
-__version__ = (0, 1, 1, 191118)
+__version__ = (0, 1, 2, 191121)
 
 version = '.'.join(map(str, __version__))
 DEBUG = True
@@ -39,7 +39,7 @@ PORT = 4000
 SECRET_KEY = "12345"  # TODO: move out the sensitive data
 
 LOGGING = True
-LOG_FILE = join(LOG_DIR, "webui {}.log".format(strftime(TIMESTAMP_FORMAT).replace(' ', '_')))
+LOG_FILE = join(LOG_DIR, "flaskapp_{}.log".format(strftime(TIMESTAMP_FORMAT).replace(' ', '_')))
 LOG_FORMAT = "[%(asctime)s] <%(filename)s:%(funcName)s:%(lineno)d> %(levelname)s - %(message)s", \
                    "%Y-%m-%d %H:%M:%S",
 IPP = 15
