@@ -103,5 +103,5 @@ ENV/
 .idea
 
 env/
-static/css/vendor/
-static/js/vendor/
+# static/css/vendor/
+# static/js/vendor/
