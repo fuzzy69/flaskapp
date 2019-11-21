@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 
+from os import environ
 from os.path import abspath, dirname, join
 from time import strftime
 
@@ -36,7 +37,7 @@ OXTS_TABLE_COLUMNS = (
 HOST = "127.0.0.1"  # Dev
 # HOST = "0.0.0.0"  # Production
 PORT = 4000
-SECRET_KEY = "12345"  # TODO: move out the sensitive data
+SECRET_KEY = environ.get("FLASKAPP_KEY")
 
 LOGGING = True
 LOG_FILE = join(LOG_DIR, "flaskapp_{}.log".format(strftime(TIMESTAMP_FORMAT).replace(' ', '_')))
