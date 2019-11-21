@@ -4,3 +4,6 @@ flask_paginate
 flask-WTF
 pandas
 tables
+
+pykitti
+opencv-python
