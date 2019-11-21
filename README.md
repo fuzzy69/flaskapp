@@ -16,22 +16,22 @@
 
 ### Project Structure
 
-- kittiproject
--- dataset (KITTI dataset files)
--- flaskapp (Flask application)
---- application (Core application and template files)
---- data (KITTI data storage files)
---- logs (Flask application log files)
---- static (CSS and JavaScript files)
---- config.py (Flask app configuration)
---- main.py (Main entry point)
---- run (Run app script)
+- kittiproject  
+-- dataset (KITTI dataset files)  
+-- flaskapp (Flask application)  
+--- application (Core application and template files)  
+--- data (KITTI data storage files)  
+--- logs (Flask application log files)  
+--- static (CSS and JavaScript files)  
+--- config.py (Flask app configuration)  
+--- main.py (Main entry point)  
+--- run (Run app script)  
 -- migration (imports KITTI data to a H5 file)
 
 
 ### Installation
 
-Navigate to project directory.
+Navigate to project directory.  
 Optionally install virtual environment with:
 ```
 virtualenv env -p python3
@@ -65,12 +65,41 @@ Open http://localhost:4000/ or http://127.0.0.1:4000/ in your web browser.
 
 ### Credentials
 
-username: demo
+username: demo  
 password: demo
 
 
 ### API
 
-API key:
+API key: demo:ZGVtb3Rva2Vu  
 
-TODO
+Endpoint: /api
+```
+curl --request GET \
+  --url 'http://localhost:4000/api/'
+```
+Response:
+```
+{
+  "message": string, 
+  "status": bool, 
+  "version": string
+}
+```
+
+Endpoint: /api/oxts
+```
+curl --request GET \
+  --url 'http://localhost:4000/api/oxts' \
+  --header 'authorization: Bearer ZGVtb3Rva2Vu'
+```
+Response:
+```
+{
+  "data": {
+    "oxts": list, 
+    "total_pages": int
+  }, 
+  "status": bool
+}
+```
