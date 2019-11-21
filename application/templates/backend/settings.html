@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% from "macros.html" import flash_messages %}
+{% block content %}
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">{{ title }}</h1>
+      </div>
+
+
+<div class="box-header">
+  {{ flash_messages() }}
+</div>
+            <form action="/back/settings" method="post">
+                <div class="modal-body">
+
+                            <h4>General Flask App settings</h4>
+                            <hr />
+                            <div class="form-group">
+                            </div>
+                            <div class="form-group">
+                              <label for="ipp">Pagination, items per page (from 10 to 100):</label><br />
+                                <input id="ipp" name="ipp" value="{{ ipp }}" />
+                            </div>
+                </div>
+                <div class="modal-footer" style="clear: both;">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+
+    </main>
+
+{% endblock %}
