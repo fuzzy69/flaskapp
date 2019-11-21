@@ -7,6 +7,7 @@ from flask import Flask, flash, jsonify, redirect, render_template, request, url
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+from application.api import APIResult
 from application.misc import StaticFilesFilter
 from application.models import init_db
 from config import DB_FILE, DB_URI, DEBUG, ROOT_DIR, SECRET_KEY, STATIC_DIR, TEMPLATES_DIR, __title__, version
@@ -70,10 +71,9 @@ def _page_not_found(err):
     """Custom 404 error handler"""
     if request.path.startswith("/api/"):
         message = "API endpoint {!r} does not exist on this server!".format(request.path)
-        return jsonify({
-            "error": True,
-            "message": message
-        }), err.code
+        r = APIResult(status=False, message=message)
+        r.fields = ("status", "message")
+        return r.json(), err.code
 
     message = "Page {!r} does not exist on this server!".format(request.path)
     flash(message, "warning")
@@ -86,10 +86,9 @@ def _unauthorized(err):
     """Custom 401 error handler"""
     message = "The server could not verify that you are authorized to access the URL requested!"
     if request.path.startswith("/api/"):
-        return jsonify({
-            "error": True,
-            "message": message
-        }), err.code
+        r = APIResult(status=False, message=message)
+        r.fields = ("status", "message")
+        return r.json(), err.code
     flash(message, "warning")
 
     return render_template(

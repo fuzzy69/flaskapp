@@ -1,63 +1,28 @@
 # -*- coding: UTF-8 -*-
 
-from flask import Blueprint, jsonify
+from datetime import datetime
+from urllib.parse import unquote
+
+from flask import Blueprint, current_app, request
 from flask_login import login_required
 
-from application.data import get_oxts_as_dicts
+from application.apiresult import APIResult
+from application.data import DataTable
 from application.errors import DataError
-from config import version, IPP
+from config import version, IPP, H5_FILE
 
 
+app = current_app
 api = Blueprint("api", __name__, url_prefix="/api")
 
 
-class APIResult:
-    """API result data container"""
-    def __init__(self, status: bool=True, message: str='', data: object=None):
-        """
-        :param bool status: result status
-        :param str message: message text, mostly for error descriptions
-        :param object data: result data
-        """
-        self._status = status
-        self._message = message
-        self._data = data
-        self._version = version
-
-    @property
-    def status(self) -> bool:
-        """Returns results status True if succeeded otherwise False"""
-        return  self._status
-
-    @property
-    def message(self) -> str:
-        """Returns message string"""
-        return  self._message
-
-    @property
-    def data(self) -> object:
-        """Returns result data or None"""
-        return  self._data
-
-    def json(self) -> dict:
-        """Returns all result fields as JSON object"""
-        return jsonify({
-            "status": self.status,
-            "message": self.message,
-            "data": self.data,
-            "version": self._version,
-        })
-
-    def __str__(self):
-        """Overridden"""
-        return str(self.json())
-
-
 @api.route('/')
-@login_required
 def _index():
     """API root endpoint, return API details"""
-    return APIResult(message="KITTI Flask Demo API").json()
+    r = APIResult(message="KITTI Flask Demo API")
+    r.fields = ("status", "message", "version")
+
+    return r.json()
 
 
 @api.route("/oxts", defaults={"page": 1})
@@ -70,15 +35,77 @@ def _oxts(page: int):
     data = None
     start = (page - 1) * IPP
     stop = start + IPP
+    # Filters
+    filters = {}
+    timestamp = request.args.get("timestamp")
+    if timestamp is not None:
+        timestamp = unquote(timestamp)
+        try:
+            datetime.fromisoformat(timestamp)
+            filters["timestamp"] = timestamp
+        except ValueError:
+            message = "Invalid timestamp argument format!"
+            r = APIResult(status, message)
+            r.fields = ("status", "message")
+            app.logger.warning(message, exc_info=True)
+            return r.json()
     try:
-        rows, total_rows_count = get_oxts_as_dicts(start, stop)
+        dt = DataTable(H5_FILE)
+        rows = [row for row in dt.fetch_rows_as_dicts(start, stop, **filters)]
         data = {
             "oxts": rows,
-            "total_pages": total_rows_count // IPP
+            "total_pages": dt.rows_count // IPP  # FIXME: should return number of selected pages
         }
         status = True
+        r = APIResult(status, message, data)
+        r.fields = ("status", "data")
     except (DataError, Exception):
         message = "Failed to query OXTS data!"
-        # app.logger.warning(message, exc_info=True)
+        r = APIResult(status, message, data)
+        r.fields = ("status", "message", "data")
+        app.logger.warning(message, exc_info=True)
 
-    return APIResult(status, message, data).json()
+    return r.json()
+
+
+@api.route("/velo", defaults={"page": 1})
+@api.route("/velo/<int:page>")
+@login_required
+def _velo(page: int):
+    """Returns Velodyne data points"""
+    status = False
+    message = ''
+    data = None
+    start = (page - 1) * IPP
+    stop = start + IPP
+    # Filters
+    filters = {}
+    timestamp = request.args.get("timestamp")
+    if timestamp is not None:
+        timestamp = unquote(timestamp)
+        try:
+            datetime.fromisoformat(timestamp)
+            filters["timestamp"] = timestamp
+        except ValueError:
+            message = "Invalid timestamp argument format!"
+            r = APIResult(status, message)
+            r.fields = ("status", "message")
+            app.logger.warning(message, exc_info=True)
+            return r.json()
+    try:
+        dt = DataTable(H5_FILE)
+        rows = [row for row in dt.fetch_rows_as_dicts(start, stop, **filters)]
+        data = {
+            "oxts": rows,
+            "total_pages": dt.rows_count // IPP  # FIXME: should return number of selected pages
+        }
+        status = True
+        r = APIResult(status, message, data)
+        r.fields = ("status", "data")
+    except (DataError, Exception):
+        message = "Failed to query Velodyne data!"
+        r = APIResult(status, message, data)
+        r.fields = ("status", "message", "data")
+        app.logger.warning(message, exc_info=True)
+
+    return r.json()
