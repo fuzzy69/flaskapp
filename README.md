@@ -1,4 +1,4 @@
-# Flask KITTI Demo
+# KITTI Flask demo application
 
 
 ### Screenshot

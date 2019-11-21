@@ -4,9 +4,9 @@ from os import environ
 from os.path import abspath, dirname, join
 from time import strftime
 
-__title__ = "Kitty Flask Demo"
-__short_title__ = "kitty"
-__description__ = ""
+__title__ = "KITTI Flask App"
+__short_title__ = "flaskapp"
+__description__ = "KITTI Flask demo application"
 __version__ = (0, 1, 2, 191121)
 
 version = '.'.join(map(str, __version__))
