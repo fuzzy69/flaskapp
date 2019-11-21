@@ -1,0 +1,16 @@
+- Import Velodyne data
+- Add OXTS data with Velodyne for its endpoints
+- Finish adding type hints to all method signatures
+- Add more unittests
+- Replace hand coded forms with WTF forms
+- Fix correct number of selected rows returned after querying H5 table, currently returns total number of rows
+- Don't show/redirect login page if already logged in
+- Don't allow logged in users to query API without API key
+- Improve login form security
+- Improve H5 table query filtering
+- Add more API filters
+- Keep JSON response page for all errors when querying API endpoints
+- Add caching
+
+- Refactor
+- Remove excess code
