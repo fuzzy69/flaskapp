@@ -27,8 +27,8 @@ def create_database():
             # Add user
             user = UsersTable(
                 username="demo",
-                password="pbkdf2:sha256:150000$Lgdmfr9X$bbb8229c62e63824d6f53de5930b5add6bfdffcbda745d653aa26c044c69e7d9",
-                api_key="ZGVtb3Rva2Vu"
+                password="pbkdf2:sha256:150000$O8FkuFnd$aeaf19d0b50d4862f1c9b770441685d5f78335fc111916a1ffef915a266b2e92",
+                api_key="pbkdf2:sha256:150000$ReI2eIGn$a4f6920eb66c6a5518ab9c58739b67348bf2f45bebd5cc3cbf106daf053ae53f"
             )
             db_session.add(user)
             # Add setting

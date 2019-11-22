@@ -48,7 +48,11 @@ pip install -r requirements.txt
 
 ### Configuration
 
-Make sure that appropriate port (default one is 4000) is free before running the application. You can change the port in PROJECT_DIR/config.py file by changing the PORT constant.
+Make sure that appropriate port (default one is 4000) is free before running the application. You can change the port in PROJECT_DIR/config.py file by changing the PORT constant.  
+Set Flask secret key
+```
+export FLASKAPP_KEY=demo
+```
 
 
 ### Usage
@@ -62,6 +66,7 @@ or
 python3 main.py
 ```
 Open http://localhost:4000/ or http://127.0.0.1:4000/ in your web browser. 
+
 
 ### Credentials
 
